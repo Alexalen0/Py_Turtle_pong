@@ -1,10 +1,15 @@
 import turtle
+import os
 
 wn = turtle.Screen()
 wn.title("Pong_v1")
 wn.bgcolor("black")
 wn.setup(width=800, height=600)
 wn.tracer(0)
+
+# Score
+score_a = 0
+score_b = 0
 
 #P addle A
 paddle_a = turtle.Turtle()
@@ -40,8 +45,17 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0,260)
-pen.write("Player A: 0  Player B: 0", align="center", font=("courier", 24, "normal"))
+pen.write("Player A: 0  Player B: 0", align="center", font=("courier", 24, "bold"))
 
+# Net
+# Pen
+net = turtle.Turtle()
+net.speed(0)
+net.color("white")
+net.penup()
+net.hideturtle()
+net.goto(0,-300)
+net.write("|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|",font=("arial", 10, "bold"))
 
 
 # Function
@@ -84,24 +98,37 @@ while True:
     if ball.ycor() > 290:
         ball.sety(290)
         ball.dy *= -1
+        os.system("aplay bounce.wav&")
 
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
+        os.system("aplay bounce.wav&")
 
     if ball.xcor() > 390:
         ball.goto(0,0)
-        ball.dx *= -1
+        ball.dx *= -.8
+        score_a += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("courier", 24, "bold"))
+
+
 
     if ball.xcor() < -390:
         ball.goto(0,0)
-        ball.dx *= -1
+        ball.dx *= -.8
+        score_b += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("courier", 24, "bold"))
+
 
     # Paddle Collision
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() - 40):
         ball.setx(340)
-        ball.dx *= -1
+        ball.dx *= -1.2
+        os.system("aplay bounce.wav&")
 
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() - 40):
         ball.setx(-340)
-        ball.dx *= -1
+        ball.dx *= -1.2
+        os.system("aplay bounce.wav&")
